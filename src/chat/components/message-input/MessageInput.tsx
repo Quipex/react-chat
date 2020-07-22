@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './styles.module.scss';
-import {Form, Label, Segment} from 'semantic-ui-react';
+import {Form, Label, Segment, Message as MessageUI} from 'semantic-ui-react';
 import {Message} from '../../model/Message';
 import {User} from '../../model/User';
 
@@ -20,7 +20,7 @@ export function MessageInput(
         messageId = '',
         messageText = ''
     }: MessageInputProps) {
-    const [body, setBody] = useState(messageText);
+    const [body, setBody] = useState('');
     const [isPosting, setIsPosting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -31,7 +31,7 @@ export function MessageInput(
         setIsPosting(true);
         setErrorMessage('');
         try {
-            await sendMessage({user: sender, text: body});
+            await sendMessage({user: sender, text: body, id: messageId});
             setBody('');
         } catch (e) {
             setErrorMessage(e.message);
@@ -40,10 +40,21 @@ export function MessageInput(
         }
     }
 
+    useEffect(() => {
+        if (messageText !== '' && messageText !== undefined) {
+            setBody(messageText);
+        }
+    }, [messageText]);
+
     return (
         <Segment className={`${styles.full_width} ${styles.input_form}`}>
             {errorMessage !== '' && <Label className={styles.errorMessage}>{errorMessage}</Label>}
             <Form onSubmit={handleSendMessage}>
+                {messageText !== '' && messageText !== undefined && (
+                    <MessageUI color='blue'>
+                        Edited Text: {messageText}
+                    </MessageUI>
+                )}
                 <Form.TextArea
                     className={styles.textarea}
                     name="body"
@@ -51,8 +62,9 @@ export function MessageInput(
                     placeholder="Write a message..."
                     onChange={(ev, data) => setBody(data.value as string)}
                 />
-                <Form.Button color="blue" type="submit"
-                             loading={isPosting}>{messageId ? 'Update' : 'Send'}</Form.Button>
+                <Form.Button color="blue" type="submit" loading={isPosting}>
+                    {messageId !== undefined && messageId !== '' ? 'Update' : 'Send'}
+                </Form.Button>
             </Form>
         </Segment>
     )

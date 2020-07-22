@@ -31,7 +31,6 @@ class App extends React.Component {
     }
 
     render() {
-
         return (
             // @ts-ignore
             this.state.chat === undefined ? <Spinner/> : <ChatComponent chat={this.state.chat} sender={userMock('Quipex')}/>

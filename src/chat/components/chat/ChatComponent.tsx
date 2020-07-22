@@ -32,21 +32,49 @@ export function ChatComponent({chat, sender}: ChatComponentProps) {
             setTimeout(() => resolve(), 300)
         });
         await promise;
-        message.createdAt = moment().toString();
-        message.editedAt = '';
-        message.id = uuidv4();
-        setChatState((prevState: Chat) => {
-            return {
-                ...prevState,
-                messages: [...prevState.messages, message]
-            }
-        })
+        if (message.id !== '' && message.id !== undefined) {
+            // had an id => editing
+            setChatState((prevState: Chat) => {
+                return {
+                    ...prevState,
+                    messages: prevState.messages.map(m => {
+                        if (m.id === message.id) {
+                            m.editedAt = moment().toISOString();
+                            m.text = message.text;
+                        }
+                        return m;
+                    })
+                }
+            });
+            // @ts-ignore
+            setEditedMessage(undefined);
+        } else {
+            // didn't have an id => saving new
+            message.createdAt = moment().toISOString();
+            message.editedAt = '';
+            message.id = uuidv4();
+            setChatState((prevState: Chat) => {
+                return {
+                    ...prevState,
+                    messages: [...prevState.messages, message]
+                }
+            })
+        }
     }, [setChatState]);
 
     useEffect(() => {
         // @ts-ignore
         bottomRef.current.scrollIntoView({behavior: "smooth"});
     });
+
+    const deleteMessage = (deletedMessage: Message) => {
+        setChatState((prevState: Chat) => {
+            return {
+                ...prevState,
+                messages: prevState.messages.filter(m => m.id !== deletedMessage.id)
+            }
+        })
+    };
 
     return (
         <div className={styles.chat}>
@@ -58,7 +86,10 @@ export function ChatComponent({chat, sender}: ChatComponentProps) {
                             last_message_timestamp={last_message_timestamp(chatState.messages)}
                             sticky_ref={contextRef}
                     />
-                    <MessageFeed sender={sender} messages={chatState.messages} setEditedMessage={setEditedMessage}/>
+                    <MessageFeed sender={sender} messages={chatState.messages}
+                                 setEditedMessage={setEditedMessage} deleteMessage={deleteMessage}
+                                 editedMessage={editedMessage}
+                    />
                 </div>
             </Ref>
             <MessageInput sender={sender} sendMessage={sendMessage}

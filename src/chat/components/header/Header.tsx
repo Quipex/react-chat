@@ -23,7 +23,7 @@ export function Header(
     return (
         <Sticky context={sticky_ref} className={styles.menu}>
             <Menu className="component-header">
-                <Menu.Item>
+                <Menu.Item className={styles.chatName}>
                     {chat_name}
                 </Menu.Item>
                 <Menu.Item>{members} members</Menu.Item>

@@ -7,16 +7,20 @@ import {Button, Segment} from 'semantic-ui-react';
 export interface MessageComponent {
     message: Message,
     className?: string,
-    edit: (msg: Message) => void,
-    userId: string
+    setEditedMessage: (msg: Message) => void,
+    deleteMsg: (msg: Message) => void,
+    userId: string,
+    isEdited: boolean
 }
 
 export function MessageContainer(
     {
         message,
         className,
-        edit,
-        userId
+        setEditedMessage,
+        deleteMsg,
+        userId,
+        isEdited = false
     }: MessageComponent
 ) {
     const edited = message.editedAt !== undefined && message.editedAt !== '';
@@ -40,15 +44,23 @@ export function MessageContainer(
             <span className={styles.username}>{message.user.name}</span>
             <span className={styles.timestamp} aria-label={timestamp} title={timestamp}>{timestamp_label}</span>
             <p className={styles.text}>{message.text}</p>
-            <Button icon={isLiked ? 'heart' : 'heart outline'} color={ isLiked ? 'red' : 'grey'}
-                    onClick={(ev, data) => setIsLiked(!isLiked)}/>
 
-            {userId === message.user.id && (
-                <div className={styles.modify_buttons}>
-                    <Button icon='edit' color='grey'/>
-                    <Button icon='trash alternate' color='grey'/>
-                </div>
-            )}
+            <div className={styles.modify_buttons}>
+                <Button icon={isLiked ? 'heart' : 'heart outline'} color={isLiked ? 'red' : 'grey'}
+                        onClick={() => setIsLiked(!isLiked)}/>
+                {userId === message.user.id && (
+                    <>
+                        <Button icon='edit' color='grey'
+                                onClick={() => setEditedMessage(message)}
+                                disabled={isEdited}
+                        />
+                        <Button icon='trash alternate' color='grey'
+                                onClick={() => deleteMsg(message)}
+                                disabled={isEdited}
+                        />
+                    </>
+                )}
+            </div>
         </Segment>
     )
 }

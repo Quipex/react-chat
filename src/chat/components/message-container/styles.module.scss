@@ -33,6 +33,7 @@ $avatar-size: 80px;
 .text {
   grid-area: 2 / 2 / span 1 / span 2;
   height: 100%;
+  word-break: break-all;
 }
 
 .username {
