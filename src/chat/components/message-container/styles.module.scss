@@ -49,3 +49,9 @@ $avatar-size: 80px;
   text-align: right;
   color: #b6b6b6;
 }
+
+.modify_buttons {
+  grid-area: 3 / 3;
+  display: flex;
+  flex-direction: row-reverse;
+}

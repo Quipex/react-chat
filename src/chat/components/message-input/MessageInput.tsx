@@ -25,6 +25,9 @@ export function MessageInput(
     const [errorMessage, setErrorMessage] = useState('');
 
     async function handleSendMessage() {
+        if (body?.trim() === '') {
+            return;
+        }
         setIsPosting(true);
         setErrorMessage('');
         try {
