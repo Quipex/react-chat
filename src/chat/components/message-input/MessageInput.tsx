@@ -16,7 +16,6 @@ export function MessageInput(
     {
         sendMessage,
         sender,
-        //todo: finish editing message
         messageId = '',
         messageText = ''
     }: MessageInputProps) {
