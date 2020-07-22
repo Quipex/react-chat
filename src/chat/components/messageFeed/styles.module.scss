@@ -1,0 +1,20 @@
+$message-size: 80%;
+
+@media screen and (min-width: 580px){
+  .messageFeed{
+    display: grid;
+    grid-template-columns: 1fr $message-size;
+  }
+
+  .your_message {
+    grid-column-start: 2;
+    grid-column-end: span 2;
+  }
+
+  .their_message {
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    max-width: $message-size;
+  }
+}
+
