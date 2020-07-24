@@ -64,7 +64,7 @@ export function ChatComponent({chat, sender}: ChatComponentProps) {
 
     useEffect(() => {
         // @ts-ignore
-        bottomRef.current.scrollIntoView({behavior: "smooth"});
+        bottomRef.current.scrollIntoView({behavior: 'auto'});
     });
 
     const deleteMessage = (deletedMessage: Message) => {
@@ -78,23 +78,26 @@ export function ChatComponent({chat, sender}: ChatComponentProps) {
 
     return (
         <div className={styles.chat}>
-            <img src="https://i.imgur.com/PLFeGFW.png" alt="Logo" className={styles.logo}/>
-            <Ref innerRef={contextRef}>
-                <div>
-                    <Header chat_name={chatState.name} members={chatState.users.length}
-                            messages={chatState.messages.length}
-                            last_message_timestamp={last_message_timestamp(chatState.messages)}
-                            sticky_ref={contextRef}
-                    />
-                    <MessageFeed sender={sender} messages={chatState.messages}
-                                 setEditedMessage={setEditedMessage} deleteMessage={deleteMessage}
-                                 editedMessage={editedMessage}
-                    />
-                </div>
-            </Ref>
-            <MessageInput sender={sender} sendMessage={sendMessage}
+            <div className={styles.chat_area}>
+                <img src="https://i.imgur.com/PLFeGFW.png" alt="Logo" className={styles.logo}/>
+                <Ref innerRef={contextRef}>
+                    {/* <Ref> needs to have only one child node*/}
+                    <div>
+                        <Header chat_name={chatState.name} members={chatState.users?.length}
+                                messages={chatState.messages.length}
+                                last_message_timestamp={last_message_timestamp(chatState.messages)}
+                                sticky_ref={contextRef}
+                        />
+                        <MessageFeed sender={sender} messages={chatState.messages}
+                                     setEditedMessage={setEditedMessage} deleteMessage={deleteMessage}
+                                     editedMessage={editedMessage}
+                        />
+                    </div>
+                </Ref>
+                <div ref={bottomRef}/>
+            </div>
+            <MessageInput className={styles.input_area} sender={sender} sendMessage={sendMessage}
                           messageId={editedMessage?.id} messageText={editedMessage?.text}/>
-            <div ref={bottomRef}/>
         </div>
     )
 }
