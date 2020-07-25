@@ -1,5 +1,5 @@
-import React, {MutableRefObject} from 'react';
-import {Menu, Sticky} from 'semantic-ui-react';
+import React, {RefObject} from 'react';
+import {Icon, Menu, Sticky} from 'semantic-ui-react';
 import styles from './styles.module.scss';
 
 
@@ -8,7 +8,7 @@ export interface HeaderComponentProps {
     members: number,
     messages: number,
     last_message_timestamp: string,
-    sticky_ref: MutableRefObject<null>
+    sticky_ref: RefObject<unknown>
 }
 
 export function Header(
@@ -18,16 +18,15 @@ export function Header(
         messages,
         last_message_timestamp,
         sticky_ref
-    }: HeaderComponentProps
-) {
+    }: HeaderComponentProps ) {
     return (
         <Sticky context={sticky_ref} className={styles.menu}>
             <Menu className="component-header">
                 <Menu.Item className={styles.chatName}>
                     {chat_name}
                 </Menu.Item>
-                <Menu.Item>{members} members</Menu.Item>
-                <Menu.Item>{messages} messages</Menu.Item>
+                <Menu.Item><Icon name='group'/>{members}</Menu.Item>
+                <Menu.Item><Icon name='mail'/>{messages}</Menu.Item>
                 <Menu.Item position={'right'}>Last message {last_message_timestamp}</Menu.Item>
             </Menu>
         </Sticky>

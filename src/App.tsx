@@ -1,57 +1,55 @@
 import React, {useEffect} from 'react';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import './App.css';
-import {ChatComponent} from './chat/components/chat/ChatComponent';
 import './styles/reset.scss';
 import 'semantic-ui-css/semantic.min.css';
 import './styles/common.scss';
 import userMock from './chat/repository/user-mock';
 import Spinner from './chat/components/spinner/Spinner';
 import {chatMock} from './chat/repository/chat-mock';
-import {loadChatAction} from './store/chat/actions';
-import {ChatActionTypes, ChatState} from './store/chat/types';
+import {loadChat} from './store/chat/actions';
 import {Chat} from './chat/model/Chat';
+import Store from './store/store';
+import {setCurrentUser} from './store/profile/actions';
+import ChatComponent from './chat/components/chat/ChatComponent';
 
 export interface AppProps {
     chat: Chat,
-    loadChatAction: (chat: Chat) => ChatActionTypes
+    dispatch: Function
 }
 
 const App = (
     {
         chat,
-        loadChatAction: loadChat
+        dispatch
     }: AppProps) => {
 
     useEffect(() => {
-        chatMock().then(value => loadChat(value))
+        chatMock().then(value => dispatch(loadChat(value)))
             .catch(e => console.error('Error loading', e));
+        userMock('Quipex').then(value => dispatch(setCurrentUser(value)))
+            .catch(e => console.error('Error loading', e))
+        // This is done on purpose. The reason is to make sure the effect triggers only once when the component renders
+        // for the first time.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log('chat', chat);
     return (
-        chat.messages === undefined ? <Spinner/> : <ChatComponent chat={chat} sender={userMock('Quipex')}/>
+        chat.id === '' ? <Spinner/> : <ChatComponent/>
     )
 };
 
-const actions = {
-    loadChatAction
-};
 
-const mapStateToProps = (state: ChatState) => ({
+const mapStateToProps = (state: Store) => ({
     chat: {
-        id: state.chatId,
-        name: state.chatName,
-        users: state.users,
-        messages: state.messages
+        id: state.chat.chatId,
+        name: state.chat.chatName,
+        users: state.chat.users,
+        messages: state.chat.messages
     }
 });
 
-const mapDispatchToProps = (dispatch: any) => bindActionCreators(actions, dispatch);
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(App);
 

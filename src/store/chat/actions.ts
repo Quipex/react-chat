@@ -26,7 +26,7 @@ export function deleteMessage(messageId: string): ChatActionTypes {
     }
 }
 
-export function setEditedMessage(editedMessage: Message): ChatActionTypes {
+export function setEditedMessage(editedMessage: Message | undefined): ChatActionTypes {
     return {
         type: SET_EDITED_MESSAGE,
         message: editedMessage
@@ -54,18 +54,16 @@ export function configureMessage(configuredMessage: Message): ChatActionTypes {
     }
 }
 
-export function setConfiguredMessage(configuredMessage: Message): ChatActionTypes {
+export function setConfiguredMessage(configuredMessage: Message | undefined): ChatActionTypes {
     return {
         type: SET_CONFIGURED_MESSAGE,
         message: configuredMessage
     }
 }
 
-export function loadChatAction(chat: Chat): ChatActionTypes {
-    console.log('loading chat');
+export function loadChat(chat: Chat): ChatActionTypes {
     return {
         type: LOAD_CHAT,
         chat
     }
-
 }

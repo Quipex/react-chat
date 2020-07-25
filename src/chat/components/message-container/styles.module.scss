@@ -7,6 +7,17 @@ $avatar-size: 80px;
   grid-template-rows: 1em 1fr;
   grid-column-gap: 10px;
   grid-row-gap: 5px;
+
+  &:hover > .cogButton {
+    visibility: visible;
+  }
+}
+
+.cogButton {
+  visibility: hidden;
+  position: absolute;
+  right: 1em;
+  top: 1em;
 }
 
 .avatar {

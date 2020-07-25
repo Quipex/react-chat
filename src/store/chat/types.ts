@@ -32,7 +32,7 @@ interface DeleteMessageAction {
 
 interface SetEditedMessageAction {
     type: typeof SET_EDITED_MESSAGE,
-    message: Message
+    message: Message | undefined
 }
 
 interface EditMessageAction {
@@ -47,7 +47,7 @@ interface LikeMessageAction {
 
 interface SetConfiguredMessageAction {
     type: typeof SET_CONFIGURED_MESSAGE
-    message: Message
+    message: Message | undefined
 }
 
 interface ConfigureMessageAction {

@@ -10,8 +10,10 @@ export interface MessageFeedComponent {
     messages: Array<Message>,
     sender: User,
     setEditedMessage: (msg: Message) => void,
-    deleteMessage: (msg: Message) => void,
-    editedMessage: Message
+    deleteMessage: (id: string) => void,
+    editedMessage?: Message,
+    setConfiguredMessage: (msg: Message) => void,
+    likeMessage: (id: string) => void
 }
 
 export function MessageFeed(
@@ -20,7 +22,9 @@ export function MessageFeed(
         sender,
         setEditedMessage,
         deleteMessage,
-        editedMessage
+        editedMessage,
+        setConfiguredMessage,
+        likeMessage
     }: MessageFeedComponent
 ) {
     return (
@@ -30,8 +34,10 @@ export function MessageFeed(
                     <MessageContainer message={message} key={message.id}
                                       className={`${sender.id === message.user.id ? styles.your_message : styles.their_message}
                                       ${message === editedMessage ? styles.edited_message : ''}`}
-                                      setEditedMessage={setEditedMessage} userId={sender.id}
+                                      setEditedMsg={setEditedMessage} userId={sender.id}
                                       deleteMsg={deleteMessage} isEdited={message === editedMessage}
+                                      setConfiguredMsg={setConfiguredMessage} likeMsg={likeMessage}
+                                      displayAvatar={sender.id !== message.user.id}
                     />
                 ))}
         </div>

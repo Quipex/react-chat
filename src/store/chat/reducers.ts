@@ -40,7 +40,10 @@ export default (state: ChatState = {chatId: '', chatName: '', messages: [], user
                 ...state,
                 messages: state.messages.map(m => {
                     if (m.id === action.payload.id) {
-                        return action.payload;
+                        return {
+                            ...m,
+                            ...action.payload
+                        };
                     }
                     return m;
                 })
@@ -55,7 +58,10 @@ export default (state: ChatState = {chatId: '', chatName: '', messages: [], user
                 ...state,
                 messages: state.messages.map(m => {
                     if (m.id === action.payload.id) {
-                        return action.payload;
+                        return {
+                            ...m,
+                            ...action.payload
+                        };
                     }
                     return m;
                 })

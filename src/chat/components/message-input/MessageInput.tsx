@@ -10,7 +10,9 @@ export interface MessageInputProps {
     sender: User,
     messageId?: string,
     messageText?: string,
-    className?: string
+    className?: string,
+    setLastMessageEdited: Function,
+    cancelUpdatingMessage: Function
 }
 
 export function MessageInput(
@@ -19,7 +21,9 @@ export function MessageInput(
         sender,
         messageId = '',
         messageText = '',
-        className= ''
+        className = '',
+        setLastMessageEdited,
+        cancelUpdatingMessage
     }: MessageInputProps) {
     const [body, setBody] = useState('');
     const [isPosting, setIsPosting] = useState(false);
@@ -53,15 +57,16 @@ export function MessageInput(
                 break;
             case ARR_UP:
                 if (body === '') {
-                    console.log('todo edit latest message');
+                    setLastMessageEdited();
                 }
                 break;
             case ESC:
                 if (messageId !== undefined && messageId !== '') {
-                    console.log('todo cancel updating message')
+                    setBody('');
+                    cancelUpdatingMessage();
                 }
+                break;
         }
-        console.log('key down', ev.keyCode, ev.shiftKey);
     }
 
     useEffect(() => {
@@ -86,6 +91,7 @@ export function MessageInput(
                     placeholder="Write a message..."
                     onChange={(_ev, data) => setBody(data.value as string)}
                     onKeyDown={handleKeyDown}
+                    rows={1}
                 />
                 <Form.Button color="blue" type="submit" loading={isPosting} disabled={body?.trim() === ''}>
                     {messageId !== undefined && messageId !== '' ? 'Update' : 'Send'}

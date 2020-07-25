@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Message} from '../../model/Message';
 import styles from './styles.module.scss';
 import moment from 'moment';
@@ -7,20 +7,26 @@ import {Button, Segment} from 'semantic-ui-react';
 export interface MessageComponent {
     message: Message,
     className?: string,
-    setEditedMessage: (msg: Message) => void,
-    deleteMsg: (msg: Message) => void,
+    setEditedMsg: (msg: Message) => void,
+    deleteMsg: (messageId: string) => void,
+    likeMsg: (messageId: string) => void,
+    setConfiguredMsg: (msg: Message) => void,
     userId: string,
-    isEdited: boolean
+    isEdited: boolean,
+    displayAvatar?: boolean
 }
 
 export function MessageContainer(
     {
         message,
         className,
-        setEditedMessage,
+        setEditedMsg,
         deleteMsg,
+        likeMsg,
+        setConfiguredMsg,
         userId,
-        isEdited = false
+        isEdited = false,
+        displayAvatar = true
     }: MessageComponent
 ) {
     const edited = message.editedAt !== undefined && message.editedAt !== '';
@@ -28,34 +34,37 @@ export function MessageContainer(
         moment(message.createdAt).fromNow();
     const timestamp = edited ? 'edited ' + moment(message.editedAt).format('LLL') :
         moment(message.createdAt).format('LLL');
-    const [isLiked, setIsLiked] = useState(false);
 
     return (
         <Segment className={`${styles.message} ${className}`}>
-            <div className={styles.avatar}>
-                {
-                    message.user.avatar !== '' && message.user.avatar !== undefined ?
-                        (<img src={message.user.avatar} alt={message.user.name} className={styles.avatar}/>) :
-                        (<div className={`${styles.no_avatar} ${styles.avatar}`}>
-                            <span className={styles.initials}>{message.user.name?.charAt(0)}</span>
-                        </div>)
-                }
-            </div>
+            {displayAvatar && (
+                <div className={styles.avatar}>
+                    {
+                        message.user.avatar !== '' && message.user.avatar !== undefined ?
+                            (<img src={message.user.avatar} alt={message.user.name} className={styles.avatar}/>) :
+                            (<div className={`${styles.no_avatar} ${styles.avatar}`}>
+                                <span className={styles.initials}>{message.user.name?.charAt(0)}</span>
+                            </div>)
+                    }
+                </div>
+            )}
             <span className={styles.username}>{message.user.name}</span>
             <span className={styles.timestamp} aria-label={timestamp} title={timestamp}>{timestamp_label}</span>
             <p className={styles.text}>{message.text}</p>
-
+            <Button className={styles.cogButton} icon='cog' onClick={() => setConfiguredMsg(message)} />
             <div className={styles.modify_buttons}>
-                <Button icon={isLiked ? 'heart' : 'heart outline'} color={isLiked ? 'red' : 'grey'}
-                        onClick={() => setIsLiked(!isLiked)}/>
+                {userId !== message.user.id && (
+                    <Button icon={message.isLiked ? 'heart' : 'heart outline'} color={message.isLiked ? 'red' : 'grey'}
+                            onClick={() => likeMsg(message.id as string)} />
+                )}
                 {userId === message.user.id && (
                     <>
                         <Button icon='edit' color='grey'
-                                onClick={() => setEditedMessage(message)}
+                                onClick={() => setEditedMsg(message)}
                                 disabled={isEdited}
                         />
                         <Button icon='trash alternate' color='grey'
-                                onClick={() => deleteMsg(message)}
+                                onClick={() => deleteMsg(message.id as string)}
                                 disabled={isEdited}
                         />
                     </>
