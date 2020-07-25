@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {Header} from '../header/Header';
-import {MessageFeed} from '../messageFeed/MessageFeed';
+import {MessageFeed} from '../message-feed/MessageFeed';
 import {MessageInput} from '../message-input/MessageInput';
 import {Message} from '../../model/Message';
 import moment from 'moment';
