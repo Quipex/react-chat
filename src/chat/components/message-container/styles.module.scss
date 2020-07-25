@@ -1,7 +1,7 @@
 $avatar-size: 80px;
 
 .message {
-  min-height: 130px;
+  min-height: 9em;
   width: 100%;
   display: grid;
   grid-template-columns: $avatar-size 1fr 200px;
