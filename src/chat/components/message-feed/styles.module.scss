@@ -1,28 +1,4 @@
-$message-size: 80%;
 
 .messageFeed {
-  padding: 10px 10px 20px;
-}
-
-@media screen and (min-width: 580px){
-  .messageFeed{
-    display: grid;
-    grid-template-columns: 20% 80%;
-  }
-
-  .your_message {
-    grid-column-start: 2;
-    grid-column-end: span 2;
-  }
-
-  .their_message {
-    grid-column-start: 1;
-    grid-column-end: span 2;
-    max-width: $message-size;
-  }
-}
-
-.edited_message {
-  //background: #628dba !important;
-  box-shadow: 0 0 5px 3px rgba(98,141,186,1) !important;
+  padding: 0 10px 20px;
 }

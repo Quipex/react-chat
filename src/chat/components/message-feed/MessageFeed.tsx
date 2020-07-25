@@ -3,8 +3,8 @@ import './styles.module.scss'
 import {Message} from '../../model/Message';
 import styles from './styles.module.scss'
 import moment from 'moment';
-import {MessageContainer} from '../message-container/MessageContainer';
 import {User} from '../../model/User';
+import {TitledMessageBlock} from '../titled-message-block/TitledMessageBlock';
 
 export interface MessageFeedComponent {
     messages: Array<Message>,
@@ -27,19 +27,35 @@ export function MessageFeed(
         likeMessage
     }: MessageFeedComponent
 ) {
+    const dateToMessages = new Map<string, Array<Message>>();
+    messages.sort((m1, m2) => moment(m1.createdAt).diff(m2.createdAt))
+        .forEach(msg => {
+            const day = moment(msg.createdAt).startOf('day').format('DD.MM.yyyy');
+            let array = dateToMessages.get(day);
+            if (array === undefined) {
+                array = []
+            }
+            array.push(msg);
+            dateToMessages.set(day, array);
+        });
+    const dates = [];
+    // @ts-ignore
+    for (const item of dateToMessages.keys()) {
+        dates.push(item);
+    }
     return (
         <div className={styles.messageFeed}>
-            {messages.sort((m1, m2) => moment(m1.createdAt).diff(m2.createdAt))
-                .map(message => (
-                    <MessageContainer message={message} key={message.id}
-                                      className={`${sender.id === message.user.id ? styles.your_message : styles.their_message}
-                                      ${message === editedMessage ? styles.edited_message : ''}`}
-                                      setEditedMsg={setEditedMessage} userId={sender.id}
-                                      deleteMsg={deleteMessage} isEdited={message === editedMessage}
-                                      setConfiguredMsg={setConfiguredMessage} likeMsg={likeMessage}
-                                      displayAvatar={sender.id !== message.user.id}
-                    />
-                ))}
+            {dates.map(date => (
+                <TitledMessageBlock title={date}
+                                    messages={dateToMessages.get(date) as Message[]}
+                                    sender={sender}
+                                    setEditedMessage={setEditedMessage}
+                                    deleteMessage={deleteMessage}
+                                    setConfiguredMessage={setConfiguredMessage}
+                                    likeMessage={likeMessage}
+                                    editedMessage={editedMessage} key={date}
+                />
+            ))}
         </div>
     )
 }
