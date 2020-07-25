@@ -24,7 +24,7 @@ export class TitledMessageBlock extends React.Component<TitledMessageBlockProps>
         return (
             <Ref innerRef={this.sticky_ref}>
                 <div className={styles.sticky_container}>
-                    <Sticky context={this.sticky_ref} offset={60}>
+                    <Sticky context={this.sticky_ref} offset={45}>
                         <div className={styles.date_label}>
                             <Label>{this.props.title}</Label>
                         </div>

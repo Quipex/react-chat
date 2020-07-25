@@ -9,4 +9,8 @@
 
 .chatName {
   max-width: 250px;
+  white-space: nowrap;
+  display: inline !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

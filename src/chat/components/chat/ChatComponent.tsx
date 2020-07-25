@@ -70,11 +70,6 @@ function ChatComponent(
     }
 
     const handleSendMessage = useCallback(async (message: Message) => {
-        //imitating latency
-        let promise = new Promise((resolve) => {
-            setTimeout(() => resolve(), 300)
-        });
-        await promise;
         if (message.id !== '' && message.id !== undefined) {
             // had an id => editing
             editMsg(message);
