@@ -48,9 +48,9 @@ export function MessageContainer(
                     }
                 </div>
             )}
-            <span className={styles.username}>{message.user.name}</span>
+            <span className={displayAvatar ? styles.username : styles.username__no_avatar}>{message.user.name}</span>
             <span className={styles.timestamp} aria-label={timestamp} title={timestamp}>{timestamp_label}</span>
-            <p className={styles.text}>{message.text}</p>
+            <p className={displayAvatar ? styles.text : styles.text__no_avatar}>{message.text}</p>
             <Button className={styles.cogButton} icon='cog' onClick={() => setConfiguredMsg(message)} />
             <div className={styles.modify_buttons}>
                 {userId !== message.user.id && (

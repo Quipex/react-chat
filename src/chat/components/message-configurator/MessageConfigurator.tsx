@@ -41,11 +41,11 @@ export function MessageConfigurator(
     return (
         <Modal open={modalOpen} onClose={() => handleModalClose()}>
             <Header icon='cog' content='Configure message'/>
-            <Modal.Content>
-                <MessageInput sendMessage={handleConfigureMessage} sender={sender}
-                              messageText={message.text} messageId={message.id}
-                                setLastMessageEdited={() => {}} cancelUpdatingMessage={() => {}}/>
-            </Modal.Content>
+            <MessageInput sendMessage={handleConfigureMessage} sender={sender}
+                          messageText={message.text} messageId={message.id}
+                          setLastMessageEdited={() => {
+                          }} cancelUpdatingMessage={() => {
+            }}/>
         </Modal>
     )
 }
