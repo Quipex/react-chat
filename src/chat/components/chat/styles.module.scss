@@ -5,23 +5,20 @@
 }
 
 .chat {
-    //margin-top: 10vw;
-    //margin-bottom: 13vw;
     display: flex;
     flex-direction: column;
-    //resize: both;
     overflow: auto;
     height: 100%;
 }
 
 .chat_area {
     flex-grow: 1;
-    //background: #EEEEEE;
     overflow-y: scroll;
 }
 
 .input_area {
     flex-shrink: 0;
+    margin-bottom: 0 !important;
     margin-top: 0 !important;
 }
 

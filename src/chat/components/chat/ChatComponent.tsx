@@ -22,6 +22,7 @@ import {bindActionCreators} from 'redux';
 import Store from '../../../store/store';
 import Spinner from '../spinner/Spinner';
 import {MessageConfigurator} from '../message-configurator/MessageConfigurator';
+import Footer from '../footer/Footer';
 
 export interface ChatComponentProps {
     chatId?: string,
@@ -137,6 +138,7 @@ function ChatComponent(
                               cancelUpdatingMessage={() => cancelMessageEditing()}
                               setLastMessageEdited={() => setLastMessageEdited()}/>
             )}
+            <Footer />
             {configuredMessage &&
             <MessageConfigurator configureMessage={configureMsg} setConfiguredMessage={setConfiguredMsg}
                                  sender={configuredMessage.user} message={configuredMessage}/>}
