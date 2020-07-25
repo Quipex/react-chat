@@ -1,6 +1,7 @@
 $avatar-size: 80px;
 
 .message {
+  min-height: 130px;
   width: 100%;
   display: grid;
   grid-template-columns: $avatar-size 1fr 200px;
@@ -45,6 +46,7 @@ $avatar-size: 80px;
   grid-area: 2 / 2 / span 1 / span 2;
   height: 100%;
   word-break: break-all;
+  white-space: pre-wrap;
 }
 
 .text__no_avatar {
