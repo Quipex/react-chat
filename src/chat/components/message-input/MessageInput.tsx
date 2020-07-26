@@ -47,25 +47,27 @@ export function MessageInput(
 
     function handleKeyDown(ev: any) {
         const ENTER = 13, ESC = 27, ARR_UP = 38;
-        switch (ev.keyCode) {
-            case ENTER:
-                if (!ev.shiftKey) {
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    handleSendMessage();
-                }
-                break;
-            case ARR_UP:
-                if (body === '') {
-                    setLastMessageEdited();
-                }
-                break;
-            case ESC:
-                if (messageId !== undefined && messageId !== '') {
-                    setBody('');
-                    cancelUpdatingMessage();
-                }
-                break;
+        if (!isPosting) {
+            switch (ev.keyCode) {
+                case ENTER:
+                    if (!ev.shiftKey) {
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        handleSendMessage();
+                    }
+                    break;
+                case ARR_UP:
+                    if (body === '') {
+                        setLastMessageEdited();
+                    }
+                    break;
+                case ESC:
+                    if (messageId !== undefined && messageId !== '') {
+                        setBody('');
+                        cancelUpdatingMessage();
+                    }
+                    break;
+            }
         }
     }
 
@@ -89,7 +91,7 @@ export function MessageInput(
                     name="body"
                     value={body}
                     placeholder="Write a message..."
-                    onChange={(_ev, data) => setBody(data.value as string)}
+                    onChange={(_ev, data) => !isPosting && setBody(data.value as string)}
                     onKeyDown={handleKeyDown}
                     rows={1}
                 />
