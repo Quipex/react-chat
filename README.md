@@ -1,6 +1,6 @@
 ## Chat app built on React and Redux
 
-Use following commands in the project directory:
+### Use following commands in the project directory:
 
 ### `npm run dev`
 
@@ -18,3 +18,6 @@ Runs `npm install -g serve && serve -s build`. Primarily for heroku host
 
 Probably in sleep-mode so you'll need to wait for heroku to wake up the app <br>
 https://react-chat-part2.herokuapp.com/
+
+#### Preview
+![Main image](https://i.imgur.com/llosWkc.png)
