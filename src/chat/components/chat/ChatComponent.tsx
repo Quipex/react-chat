@@ -72,6 +72,7 @@ function ChatComponent(
     const handleSendMessage = useCallback(async (message: Message) => {
         if (message.id !== '' && message.id !== undefined) {
             // had an id => editing
+            message.editedAt = moment().toISOString();
             editMsg(message);
             // @ts-ignore
             setEditedMsg(undefined);
